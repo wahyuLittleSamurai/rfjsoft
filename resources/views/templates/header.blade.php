@@ -22,3 +22,4 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('../assets/css/style.css') }}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/dataTables.css') }}">

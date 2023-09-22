@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Masterstaff extends Migration
+class Mastersidebar extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class Masterstaff extends Migration
      */
     public function up()
     {
-        Schema::create('masterstaff', function (Blueprint $table) {
+        Schema::create('mastersidebar', function (Blueprint $table) {
             $table->string('Kode');
-            $table->string('StaffName');
-            $table->string('Password');
-            $table->string('Phone');
-            $table->string('Email');
-            $table->string('Address');
-            $table->string('Photo');
-            $table->string('Position');
+            $table->string('Menu');
+            $table->string('Link');
+            $table->string('Icon');
+            $table->string('Staff');
             $table->boolean('IsActive')->default(true);
             $table->string('CreateBy')->default('ADMIN');
             $table->timestamp('CreateDate')->useCurrent();
