@@ -6,7 +6,7 @@
           </div>
 
           <div class="col-lg-6 content">
-            <h2>Lorem ipsum dolor sit amet, consectetur adipiscing</h2>
+            <h2>About Us</h2>
             <h3>Teknologi Maju Solutions adalah perusahaan yang bergerak di bidang 
                 Teknologi Informasi (IT) yang didirikan pada tahun 2005. 
                 Kami telah mengabdikan diri untuk memberikan solusi IT inovatif dan berkualitas tinggi kepada berbagai 

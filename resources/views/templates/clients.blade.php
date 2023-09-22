@@ -2,7 +2,7 @@
       <div class="container" data-aos="fade-up">
         <div class="section-header">
           <h2>Clients</h2>
-          <p>Sed tamen tempor magna labore dolore dolor sint tempor duis magna elit veniam aliqua esse amet veniam enim export quid quid veniam aliqua eram noster malis nulla duis fugiat culpa esse aute nulla ipsum velit export irure minim illum fore</p>
+          <p>Kami ingin berterima kasih kepada semua klien kami yang telah menjadi bagian dari perjalanan kami dalam memberikan solusi yang berkualitas.</p>
         </div>
 
         <div class="clients-slider swiper" data-aos="fade-up" data-aos-delay="100">
