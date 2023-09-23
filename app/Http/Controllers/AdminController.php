@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\DataStaff;
 use Session;
+use Validator;
+
 
 class AdminController extends Controller
 {
@@ -20,6 +22,21 @@ class AdminController extends Controller
         return view('Admin.login', [
             "sidebars" => null,
         ]);
+    }
+    public function LoginStaff()
+    {
+        $credentials = $request->only('Username', 'Password');
+        
+        $rules = [
+            'Username' => 'required|email',
+            'Password' => 'required',
+        ];
+
+        $validator = Validator::make($credentials, $rules);
+        if($validator->fails()) {
+            return \Redirect::back()->withErrors($validator);
+        }
+        //sampai sini males ngerjain sudah
     }
     public function DashAdmin()
     {
