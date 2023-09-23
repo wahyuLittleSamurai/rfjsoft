@@ -3,6 +3,7 @@
 
 <head>
     @include('templates.header')
+    @if($sidebars != null)
     <style>
       @media (min-width: 991.98px) {
         main {
@@ -40,11 +41,14 @@
         overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
       }
     </style>
+    @endif
 </head>
 
 <body>
   
+@if($sidebars != null)
   @include('Admin.sidebar', ['sidebars' => $sidebars])
+@endif
 
   <main id="main">
 

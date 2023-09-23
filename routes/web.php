@@ -20,7 +20,14 @@ Route::get('/', [rjsoft::class, 'index'])->name('index');
 Route::get('/DetailService', [rjsoft::class, 'detailService'])->name('DetailService'); 
 
 
-/* ROUTE FOR ADMIN */
-Route::get('/DashAdmin', [AdminController::class, 'DashAdmin'])->name('DashboardAdmin'); 
-Route::get('/DataStaff', [AdminController::class, 'DataStaff'])->name('DataStaff'); 
-Route::get('/test', [AdminController::class, 'GetSidebar']); 
+Route::group(['middleware' => ['usersession']], function() {
+    /* ROUTE FOR ADMIN */
+    Route::get('/DashAdmin', [AdminController::class, 'DashAdmin'])->name('DashboardAdmin'); 
+    Route::get('/DataStaff', [AdminController::class, 'DataStaff'])->name('DataStaff'); 
+    Route::get('/test/{Kode}/{Table}', [AdminController::class, 'GenerateId']); 
+
+    //with csrf data
+    Route::post('/InsertDataStaff', [AdminController::class, 'InsertDataStaff'])->name('InsertDataStaff')->middleware('csrf');
+});
+
+Route::get('/Login', [AdminController::class, 'Login'])->name('login');
