@@ -7,8 +7,14 @@ use DB;
 use App\Models\DataStaff;
 use Session;
 use Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
-
+/* 
+1. password register harus di hash dulu
+2. column jwt harus pakai 'password' (besar kecil harus seperti itu)
+*/
 class AdminController extends Controller
 {
     protected function GetSidebar()
@@ -19,24 +25,54 @@ class AdminController extends Controller
     }
     public function Login()
     {
-        return view('Admin.login', [
-            "sidebars" => null,
-        ]);
+        $mySession = Session::get('dataUser');
+        if($mySession["token"] == "" || $mySession["token"] == null)
+        {
+            return view('Admin.login', [
+                "sidebars" => null,
+            ]);
+        }
+        else
+        {
+            return redirect('/DashAdmin');
+        }
+        
     }
-    public function LoginStaff()
+    public function LoginStaff(Request $request)
     {
-        $credentials = $request->only('Username', 'Password');
+        $credentials = $request->only('Username', 'password');
         
         $rules = [
             'Username' => 'required|email',
-            'Password' => 'required',
+            'password' => 'required',
         ];
 
+        //echo Hash::make($credentials["password"]);
+        
+        
         $validator = Validator::make($credentials, $rules);
         if($validator->fails()) {
             return \Redirect::back()->withErrors($validator);
         }
-        //sampai sini males ngerjain sudah
+        
+        try {
+            $credentialsJwt["StaffName"] = $credentials["Username"];
+            $credentialsJwt["password"] = $credentials["password"];
+
+            if (! $token = JWTAuth::attempt($credentialsJwt)) {
+                return \Redirect::back()->withErrors('Account Tidak Ditemukan');
+            }
+            else {
+                $credentials["token"] = $token;
+                $request->session()->put('dataUser', $credentials);
+                return redirect('/DashAdmin');
+            }
+            
+        } catch (JWTException $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
+        
+
     }
     public function DashAdmin()
     {
@@ -98,6 +134,12 @@ class AdminController extends Controller
                                 )				
                             ) NewId" );
         return $resData;
+    }
+
+    public function Logout(Request $request)
+    {
+        $request->session()->flush();
+        return redirect('/Login');
     }
 
 }
