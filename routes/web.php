@@ -33,4 +33,3 @@ Route::group(['middleware' => ['usersession']], function() {
 
 Route::get('/Login', [AdminController::class, 'Login'])->name('login');
 Route::post('/LoginStaff', [AdminController::class, 'LoginStaff'])->name('LoginStaff');
-

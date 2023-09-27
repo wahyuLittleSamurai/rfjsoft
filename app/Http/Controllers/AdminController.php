@@ -97,7 +97,7 @@ class AdminController extends Controller
             $resInsert = DB::table('masterstaff')->insert([
                             'Kode' => $myData[0]->NewKode,
                             'Username' => $request->post('Username'),
-                            'Password' => $request->post('Password'),
+                            'password' => $request->post('Password'),
                             'Phone' => $request->post('Phone'),
                             'Email' => $request->post('Email'),
                             'Address' => $request->post('Address'),

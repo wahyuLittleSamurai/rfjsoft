@@ -25,7 +25,6 @@
                                 <th>Email</th>
                                 <th>Address</th>
                                 <th>Position</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
