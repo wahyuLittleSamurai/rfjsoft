@@ -19,12 +19,13 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kode</th>
-                                <th>Nama Staff</th>
+                                <th style="min-width: 250px;">Kode</th>
+                                <th style="min-width: 250px;">Nama Staff</th>
                                 <th>Phone</th>
                                 <th>Email</th>
-                                <th>Address</th>
+                                <th style="min-width: 350px;">Address</th>
                                 <th>Position</th>
+                                <th style="min-width: 250px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,7 +38,16 @@
                                 <td >{{ $row->Email }}</td>
                                 <td >{{ $row->Address }}</td>
                                 <td >{{ $row->Position }}</td>
-                                
+                                <td>
+                                    <button class="btn btn-danger btn-xs rounded text-white">Edit</button>
+                                    <a href="{{ url('SetActive/' . $row->Kode . '/masterstaff') }}" class="btn btn-warning btn-xs rounded text-white">
+                                        @if( $row->IsActive == '1' )
+                                            Non-Active
+                                        @else
+                                            Active
+                                        @endif
+                                    </a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

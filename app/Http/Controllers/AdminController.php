@@ -84,19 +84,36 @@ class AdminController extends Controller
     public function DataStaff()
     {
         $resData = $this->GetSidebar();
-        $resStaffs = DataStaff::all()->where('IsActive', '=', 1);
+        //$resStaffs = DataStaff::all()->where('IsActive', '=', 1);
+        $resStaffs = DataStaff::all();
         return view('Admin.dataStaff', [
             "sidebars" => $resData,
             "staffs" => $resStaffs,
         ]);
     }
+    public function SetActive(Request $request)
+    {
+        $retData = DB::statement("UPDATE ".$request->Table." SET IsActive = (
+            SELECT (!IsActive) IsActive FROM ".$request->Table." WHERE Kode = '".$request->Kode."' ) 
+            WHERE Kode = '".$request->Kode."'");
+
+        if($retData)
+        {
+            return \Redirect::back();
+        }
+        else
+        {
+            return \Redirect::back()->withErrors('Ada Kesalahan, Coba Lagi!'); 
+        }
+    }
     public function InsertDataStaff(Request $request)
     {
         try {
             $myData = $this->GenerateId("ST", "masterstaff");
+            
             $resInsert = DB::table('masterstaff')->insert([
-                            'Kode' => $myData[0]->NewKode,
-                            'Username' => $request->post('Username'),
+                            'Kode' => $myData[0]->NewId,
+                            'StaffName' => $request->post('Username'),
                             'password' => $request->post('Password'),
                             'Phone' => $request->post('Phone'),
                             'Email' => $request->post('Email'),
@@ -111,6 +128,7 @@ class AdminController extends Controller
             {
                 return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
             }
+            
             
         } catch (JWTException $e) {
             return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');

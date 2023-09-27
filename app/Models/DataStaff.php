@@ -11,7 +11,7 @@ class DataStaff extends Model
 
     protected $table = 'masterstaff';
     protected $fillable = [
-        'Kode', 'StaffName', 'Password', 'Phone', 'Email', 'Address', 'Position'
+        'Kode', 'StaffName', 'password', 'Phone', 'Email', 'Address', 'Position', 'IsActive'
     ];
     protected $hidden = [
         'Password'

@@ -26,6 +26,7 @@ Route::group(['middleware' => ['usersession']], function() {
     Route::get('/DataStaff', [AdminController::class, 'DataStaff'])->name('DataStaff'); 
     Route::get('/test/{Kode}/{Table}', [AdminController::class, 'GenerateId']); 
     Route::get('/Logout', [AdminController::class, 'Logout'])->name('Logout'); 
+    Route::get('/SetActive/{Kode}/{Table}', [AdminController::class, 'SetActive'])->name('SetActive'); 
 
     //with csrf data
     Route::post('/InsertDataStaff', [AdminController::class, 'InsertDataStaff'])->name('InsertDataStaff')->middleware('csrf');
