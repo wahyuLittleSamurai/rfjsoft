@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\DataStaff;
+use App\Models\MasterProfileCompany;
 use Session;
 use Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -90,6 +91,65 @@ class AdminController extends Controller
             "sidebars" => $resData,
             "staffs" => $resStaffs,
         ]);
+    }
+    public function SettingCompany()
+    {
+        $resData = $this->GetSidebar();
+        $resProfileCompanies = MasterProfileCompany::all();
+        return view('Admin.dataProfileCompany', [
+            "sidebars" => $resData,
+            "companies" => $resProfileCompanies,
+        ]);
+    }
+    public function InsertSettingCompany(Request $request)
+    {
+        try {
+
+            if($request->filled('Kode'))
+            {
+                $resInsert = DB::table('masterprofilecompany')
+                            ->where('Kode',$request->post('Kode'))
+                            ->update([
+                                'CompanyName' => $request->post('CompanyName'),
+                                'Owner' => $request->post('Owner'),
+                                'TagLine' => $request->post('TagLine'),
+                                'Icon' => $request->post('Icon'),
+                                'AboutUs' => $request->post('AboutUs')
+                            ]);
+            }            
+            else 
+            {
+                $myData = $this->GenerateId("MPC", "masterprofilecompany");
+                $resInsert = DB::table('masterprofilecompany')->insert([
+                                'Kode' => $myData[0]->NewId,
+                                'CompanyName' => $request->post('CompanyName'),
+                                'Owner' => $request->post('Owner'),
+                                'TagLine' => $request->post('TagLine'),
+                                'Icon' => $request->post('Icon'),
+                                'AboutUs' => $request->post('AboutUs')
+                            ]);
+            }
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+            }
+            
+        } catch (JWTException $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
+    }
+    public function GetProfileCompany(Request $request)
+    {
+        $kodeCompany = $request->post('Kode');  
+        $resCompany = MasterProfileCompany::all()->where('IsActive', '=', 1)
+                                                ->where('Kode', '=',$kodeCompany)
+                                                ->first();
+
+        echo json_encode($resCompany);
     }
     public function SetActive(Request $request)
     {
