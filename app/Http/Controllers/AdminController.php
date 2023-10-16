@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\DataStaff;
 use App\Models\MasterProfileCompany;
+use App\Models\DataService;
 use Session;
 use Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -100,6 +101,63 @@ class AdminController extends Controller
             "sidebars" => $resData,
             "companies" => $resProfileCompanies,
         ]);
+    }
+    public function SettingService()
+    {
+        $resData = $this->GetSidebar();
+        $resServices = DataService::all();
+        return view('Admin.dataService', [
+            "sidebars" => $resData,
+            "services" => $resServices,
+        ]);
+    }
+    public function InsertDetailCompany(Request $request)
+    {
+        try {
+            $myData = $this->GenerateId("DPC", "detailcompany");
+            $resInsert = DB::table('detailcompany')->insert([
+                            'Kode' => $myData[0]->NewId,
+                            'KodeCompany' => $request->post('KodeDetail'),
+                            'Name' => $request->post('NameDetail'),
+                            'Icon' => $request->post('IconDetail'),
+                            'Link' => $request->post('LinkDetail')
+                        ]);   
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+            }
+        } catch (JWTException $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
+    }
+    public function InsertService(Request $request)
+    {
+        try {
+            $myData = $this->GenerateId("MS", "masterservice");
+            $resInsert = DB::table('masterservice')->insert([
+                            'Kode' => $myData[0]->NewId,
+                            'ServiceName' => $request->post('ServiceName'),
+                            'DetailService' => $request->post('DetailService'),
+                            'Icon' => $request->post('Icon'),
+                            'LinkDetail' => $request->post('LinkDetail')
+                        ]);
+           
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+            }
+            
+        } catch (JWTException $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
     }
     public function InsertSettingCompany(Request $request)
     {

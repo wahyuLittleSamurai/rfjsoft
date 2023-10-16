@@ -28,11 +28,14 @@ Route::group(['middleware' => ['usersession']], function() {
     Route::get('/test/{Kode}/{Table}', [AdminController::class, 'GenerateId']); 
     Route::get('/Logout', [AdminController::class, 'Logout'])->name('Logout'); 
     Route::get('/SetActive/{Kode}/{Table}', [AdminController::class, 'SetActive'])->name('SetActive'); 
+    Route::get('/SettingService', [AdminController::class, 'SettingService'])->name('SettingService'); 
 
     //with csrf data
     Route::post('/InsertDataStaff', [AdminController::class, 'InsertDataStaff'])->name('InsertDataStaff')->middleware('csrf');
     Route::post('/InsertSettingCompany', [AdminController::class, 'InsertSettingCompany'])->name('InsertSettingCompany')->middleware('csrf');
     Route::post('/GetProfileCompany', [AdminController::class, 'GetProfileCompany'])->name('GetProfileCompany')->middleware('csrf');
+    Route::post('/InsertDetailCompany', [AdminController::class, 'InsertDetailCompany'])->name('InsertDetailCompany')->middleware('csrf');
+    Route::post('/InsertService', [AdminController::class, 'InsertService'])->name('InsertService')->middleware('csrf');
 });
 
 Route::get('/Login', [AdminController::class, 'Login'])->name('login');

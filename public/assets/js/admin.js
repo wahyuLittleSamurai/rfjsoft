@@ -10,9 +10,20 @@ $("#btnAddStaff").click(function(){
 });
 
 $("#btnAdd").click(function(){
-    $("#formAdd").trigger('reset');
+    $("#formAdd").trigger('reset'); 
     $("#Kode").val('');
     $("#modalAdd").modal("show");
+});
+
+
+$("#tblData").on('click', '.addDetailCompany', function(){
+    let data = $(this).data("id");
+    let company = $(this).data("company");
+
+    $("#DetailCompanyName").val(company);
+    $("#KodeDetail").val(data);
+    $("#modalAddDetail").modal("show");
+
 });
 
 $("#tblData").on('click', '.editProfileCompany', function(){

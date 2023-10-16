@@ -40,7 +40,10 @@
                                 <td >{{ $row->AboutUs }}</td>
                                 <td>
                                     <button class="btn btn-danger btn-xs rounded text-white editProfileCompany" data-id="{{ $row->Kode }}">Edit</button>
-                                    <button class="btn btn-info btn-xs rounded text-white">Add Detail</button>
+                                    <button class="btn btn-info btn-xs rounded text-white addDetailCompany" 
+                                        data-id="{{ $row->Kode }}"
+                                        data-company="{{ $row->CompanyName }}">
+                                        Add Detail</button>
                                     <a href="{{ url('SetActive/' . $row->Kode . '/masterprofilecompany') }}" class="btn btn-warning btn-xs rounded text-white">
                                         @if( $row->IsActive == '1' )
                                             Non-Active
@@ -91,8 +94,47 @@
             <div class="form-group">
                 <label for="AboutUs">About Us</label>
                 <textarea class="form-control form-control-sm " id="AboutUs" name="AboutUs" required ></textarea>
+            </div>
             <button class="btn btn-sm btn-danger rounded my-2 float-end btnAdd">Register</button>
-        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Add Detail Company Profile-->
+<div class="modal fade" id="modalAddDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('InsertDetailCompany') }}" method="post"  >
+            @csrf
+            <input type="hidden" id="KodeDetail" name="KodeDetail"/>
+            <div class="form-group">
+                <label for="DetailCompanyName">Company Name</label>
+                <input class="form-control form-control-sm " type="text" id="DetailCompanyName" name="DetailCompanyName" placeholder="Company Name" required />
+            </div> 
+            <div class="form-group">
+                <label for="NameDetail">Name</label>
+                <input class="form-control form-control-sm " type="text" id="NameDetail" name="NameDetail" placeholder="Name" required />
+            </div>
+            <div class="form-group">
+                <label for="IconDetail">Icon</label>
+                <input class="form-control form-control-sm " type="text" id="IconDetail" name="IconDetail" placeholder="Icon" required />
+            </div> 
+            <div class="form-group">
+                <label for="LinkDetail">Link</label>
+                <input class="form-control form-control-sm " type="text" id="LinkDetail" name="LinkDetail" placeholder="Link" required />
+            </div> 
+            <button class="btn btn-sm btn-danger rounded my-2 float-end ">Add Detail</button>
+        </form>
       </div>
     </div>
   </div>
