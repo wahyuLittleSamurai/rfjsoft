@@ -282,7 +282,8 @@ class AdminController extends Controller
                                     SELECT	CONCAT('".$Kode."', '-', date_format(curdate(), '%Y%m%d'), '-', LPAD(CONVERT( CONVERT(
                                                         REPLACE(Kode,CONCAT('".$Kode."', '-', date_format(curdate(), '%Y%m%d'), '-'), '')
                                                         , INT) + 1, CHAR(100)), 4, 0) ) NewKode FROM ".$Table."
-                                                    WHERE CONVERT(CreateDate, DATE) = CURDATE() AND IFNULL(IsActive,0) = 1		
+                                                    WHERE CONVERT(CreateDate, DATE) = CURDATE() AND IFNULL(IsActive,0) = 1	
+                                                    ORDER BY CreateDate DESC LIMIT 1	
                                 ),
                                 (
                                     SELECT CONCAT('".$Kode."', '-', date_format(curdate(), '%Y%m%d'), '-', LPAD(1, 4, 0))
