@@ -313,11 +313,11 @@ class AdminController extends Controller
             $path = 'assets\img\clients';
             $resultUpload = $file->move($path,$file->getClientOriginalName());
 
-            try {
-                $myData = $this->GenerateId("MC", "masterclient");
-                
-                $resInsert = DB::table('masterclient')->insert([
-                                'Kode' => $myData[0]->NewId,
+            if($request->filled('Kode'))
+            {
+                $resInsert = DB::table('masterclient')
+                            ->where('Kode',$request->post('Kode'))
+                            ->update([
                                 'ClientName' => $request->post('ClientName'),
                                 'Address' => $request->post('Address'),
                                 'Phone' => $request->post('Phone'),
@@ -325,24 +325,45 @@ class AdminController extends Controller
                                 'Email' => $request->post('Email'),
                                 'Logo' => $file->getClientOriginalName()
                             ]);
-                if( $resInsert )
-                {
-                    return \Redirect::back();
+            }            
+            else
+            {
+                try {
+                    $myData = $this->GenerateId("MC", "masterclient");
+                    
+                    $resInsert = DB::table('masterclient')->insert([
+                                    'Kode' => $myData[0]->NewId,
+                                    'ClientName' => $request->post('ClientName'),
+                                    'Address' => $request->post('Address'),
+                                    'Phone' => $request->post('Phone'),
+                                    'NPWP' => $request->post('NPWP'),
+                                    'Email' => $request->post('Email'),
+                                    'Logo' => $file->getClientOriginalName()
+                                ]);
+                    
+                } catch (JWTException $e) {
+                    return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
                 }
-                else 
-                {
-                    return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
-                }
-                
-                
-            } catch (JWTException $e) {
-                return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+            }
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
             }
 
         }catch (Throwable $e) {
             return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
         }
 
+    }
+    public function GetDataClient(Request $request)
+    {
+        $kode = $request->post('Kode');  
+        $res = Clients::all()->where('Kode', '=',$kode)->first();
+        echo json_encode($res);
     }
 
 }

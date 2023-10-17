@@ -39,6 +39,7 @@ Route::group(['middleware' => ['usersession']], function() {
     Route::post('/InsertService', [AdminController::class, 'InsertService'])->name('InsertService')->middleware('csrf');
     Route::post('/GetServiceCompany', [AdminController::class, 'GetServiceCompany'])->name('GetServiceCompany')->middleware('csrf');
     Route::post('/InsertClient', [AdminController::class, 'InsertClient'])->name('InsertClient')->middleware('csrf');
+    Route::post('/GetDataClient', [AdminController::class, 'GetDataClient'])->name('GetDataClient')->middleware('csrf');
 });
 
 Route::get('/Login', [AdminController::class, 'Login'])->name('login');

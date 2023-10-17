@@ -15,7 +15,7 @@
                         data-toggle="modal" data-target="#modalAdd">Add</button>
                 </div>
                 <div class="col-12">
-                    <table class="table w-100" id="tblDataService">
+                    <table class="table w-100" id="tblDataClient">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -41,7 +41,7 @@
                                 <td >{{ $row->NPWP }}</td>
                                 <td >{{ $row->Logo }}</td>
                                 <td>
-                                    <button class="btn btn-danger btn-xs rounded text-white editService" data-id="{{ $row->Kode }}">Edit</button>
+                                    <button class="btn btn-danger btn-xs rounded text-white edit" data-id="{{ $row->Kode }}">Edit</button>
                                     <a href="{{ url('SetActive/' . $row->Kode . '/masterclient') }}" class="btn btn-warning btn-xs rounded text-white">
                                         @if( $row->IsActive == '1' )
                                             Non-Active

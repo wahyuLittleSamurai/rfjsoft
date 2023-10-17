@@ -7,6 +7,9 @@ $("#tblData").DataTable({
 $("#tblDataService").DataTable({
     scrollX: true
 });
+$("#tblDataClient").DataTable({
+    scrollX: true
+});
 
 $("#btnAddStaff").click(function(){
     $("#modalStaff").modal("show");
@@ -48,6 +51,43 @@ $("#tblDataService").on('click', '.editService', function(){
         $("#Icon").val(jsonData.Icon);
         $("#LinkDetail").val(jsonData.LinkDetail);
         $("#Kode").val(jsonData.Kode);
+        $(".btnAdd").text("Update");
+    }
+
+});
+$("#tblDataClient").on('click', '.edit', function(){
+    let data = $(this).data("id");
+    var form_data = {};   
+    form_data['Kode'] = data;  
+    var urlFile = '/GetDataClient';
+    getResult = postData(urlFile, form_data); 
+    if(getResult.indexOf("Failed") >= 0)
+    {
+        alert(getResult);
+    }
+    else
+    {
+        var jsonData = JSON.parse(getResult);
+        $("#modalAdd").modal("show");
+        $("#ClientName").val(jsonData.ClientName);
+        $("#Address").val(jsonData.Address);
+        $("#Phone").val(jsonData.Phone);
+        $("#NPWP").val(jsonData.NPWP);
+        $("#Email").val(jsonData.Email);
+        $("#Kode").val(jsonData.Kode);
+        
+        const fileInput = document.querySelector('input[type="file"]');
+
+        // Create a new File object
+        const myFile = new File(['Logo'], jsonData.Logo, {
+            lastModified: new Date(),
+        });
+
+        // Now let's create a DataTransfer to get a FileList
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(myFile);
+        fileInput.files = dataTransfer.files;
+        
         $(".btnAdd").text("Update");
     }
 
