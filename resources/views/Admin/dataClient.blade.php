@@ -20,25 +20,29 @@
                             <tr>
                                 <th>No</th>
                                 <th style="min-width: 250px;">Kode</th>
-                                <th style="min-width: 250px;">Service Name</th>
-                                <th style="min-width: 250px;">Detail Service</th>
-                                <th>Icon</th>
-                                <th style="min-width: 250px;">Link Detail</th>
+                                <th style="min-width: 250px;">Client Name</th>
+                                <th style="min-width: 250px;">Address</th>
+                                <th>Phone</th>
+                                <th >Email</th>
+                                <th >NPWP</th>
+                                <th >Logo</th>
                                 <th style="min-width: 250px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($services as $row)
+                        @foreach ($clients as $row)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td >{{ $row->Kode }}</td>
-                                <td >{{ $row->ServiceName }} </td>
-                                <td >{{ $row->DetailService }}</td>
-                                <td >{{ $row->Icon }}</td>
-                                <td >{{ $row->LinkDetail }}</td>
+                                <td >{{ $row->ClientName }} </td>
+                                <td >{{ $row->Address }}</td>
+                                <td >{{ $row->Phone }}</td>
+                                <td >{{ $row->Email }}</td>
+                                <td >{{ $row->NPWP }}</td>
+                                <td >{{ $row->Logo }}</td>
                                 <td>
                                     <button class="btn btn-danger btn-xs rounded text-white editService" data-id="{{ $row->Kode }}">Edit</button>
-                                    <a href="{{ url('SetActive/' . $row->Kode . '/masterservice') }}" class="btn btn-warning btn-xs rounded text-white">
+                                    <a href="{{ url('SetActive/' . $row->Kode . '/masterclient') }}" class="btn btn-warning btn-xs rounded text-white">
                                         @if( $row->IsActive == '1' )
                                             Non-Active
                                         @else
@@ -66,27 +70,35 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="{{ route('InsertService') }}" method="post" id="formAdd">
+        <form action="{{ route('InsertClient') }}" method="post" id="formAdd" enctype="multipart/form-data">
             @csrf
             <input type="hidden" id="Kode" name="Kode"/>
             <div class="form-group">
-                <label for="ServiceName">Service Name</label>
-                <input class="form-control form-control-sm " type="text" id="ServiceName" name="ServiceName" placeholder="Service Name" required />
+                <label for="ClientName">Client Name</label>
+                <input class="form-control form-control-sm " type="text" id="ClientName" name="ClientName" placeholder="Client Name" required />
             </div> 
             <div class="form-group">
-                <label for="DetailService">Detail Service</label>
-                <textarea class="form-control form-control-sm "  id="DetailService" 
-                    name="DetailService"  required ></textarea>
+                <label for="Address">Address</label>
+                <textarea class="form-control form-control-sm "  id="Address" 
+                    name="Address"  required ></textarea>
             </div>
             <div class="form-group">
-                <label for="Icon">Icon</label>
-                <input class="form-control form-control-sm " type="text" id="Icon" name="Icon" placeholder="Icon" required />
+                <label for="Phone">Phone</label>
+                <input class="form-control form-control-sm " type="telp" id="Phone" name="Phone" placeholder="Phone" required />
             </div> 
             <div class="form-group">
-                <label for="LinkDetail">Link Detail</label>
-                <input class="form-control form-control-sm " id="LinkDetail" name="LinkDetail" required />
+                <label for="NPWP">NPWP</label>
+                <input class="form-control form-control-sm " type="text" id="NPWP" name="NPWP" placeholder="NPWP" required />
             </div> 
-            <button class="btn btn-sm btn-danger rounded my-2 float-end btnAdd">Add Service</button>
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input class="form-control form-control-sm " type="email" id="Email" name="Email" placeholder="Email@email.com" required />
+            </div> 
+            <div class="form-group">
+                <label for="Logo">Logo</label>
+                <input class="form-control form-control-sm " type="file" id="Logo" name="Logo" required />
+            </div> 
+            <button class="btn btn-sm btn-danger rounded my-2 float-end btnAdd">Add Client</button>
         </form>
       </div>
     </div>

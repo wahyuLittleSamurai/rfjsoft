@@ -7,6 +7,7 @@ use DB;
 use App\Models\DataStaff;
 use App\Models\MasterProfileCompany;
 use App\Models\DataService;
+use App\Models\Clients;
 use Session;
 use Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -137,15 +138,28 @@ class AdminController extends Controller
     public function InsertService(Request $request)
     {
         try {
-            $myData = $this->GenerateId("MS", "masterservice");
-            $resInsert = DB::table('masterservice')->insert([
-                            'Kode' => $myData[0]->NewId,
-                            'ServiceName' => $request->post('ServiceName'),
-                            'DetailService' => $request->post('DetailService'),
-                            'Icon' => $request->post('Icon'),
-                            'LinkDetail' => $request->post('LinkDetail')
-                        ]);
-           
+            if($request->filled('Kode'))
+            {
+                $resInsert = DB::table('masterservice')
+                            ->where('Kode',$request->post('Kode'))
+                            ->update([
+                                'ServiceName' => $request->post('ServiceName'),
+                                'DetailService' => $request->post('DetailService'),
+                                'Icon' => $request->post('Icon'),
+                                'LinkDetail' => $request->post('LinkDetail')
+                            ]);
+            }
+            else
+            {
+                $myData = $this->GenerateId("MS", "masterservice");
+                $resInsert = DB::table('masterservice')->insert([
+                                'Kode' => $myData[0]->NewId,
+                                'ServiceName' => $request->post('ServiceName'),
+                                'DetailService' => $request->post('DetailService'),
+                                'Icon' => $request->post('Icon'),
+                                'LinkDetail' => $request->post('LinkDetail')
+                            ]);
+            }
             if( $resInsert )
             {
                 return \Redirect::back();
@@ -154,7 +168,6 @@ class AdminController extends Controller
             {
                 return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
             }
-            
         } catch (JWTException $e) {
             return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
         }
@@ -199,6 +212,12 @@ class AdminController extends Controller
         } catch (JWTException $e) {
             return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
         }
+    }
+    public function GetServiceCompany(Request $request)
+    {
+        $kodeService = $request->post('Kode');  
+        $resService = DataService::all()->where('Kode', '=',$kodeService)->first();
+        echo json_encode($resService);
     }
     public function GetProfileCompany(Request $request)
     {
@@ -276,6 +295,54 @@ class AdminController extends Controller
     {
         $request->session()->flush();
         return redirect('/Login');
+    }
+
+    public function DataClient()
+    {
+        $resData = $this->GetSidebar();
+        $resClients = Clients::all();
+        return view('Admin.dataClient', [
+            "sidebars" => $resData,
+            "clients" => $resClients,
+        ]);
+    }
+    public function InsertClient(Request $request)
+    {
+        try {
+            $file = $request->file('Logo');
+            $path = 'assets\img\clients';
+            $resultUpload = $file->move($path,$file->getClientOriginalName());
+
+            try {
+                $myData = $this->GenerateId("MC", "masterclient");
+                
+                $resInsert = DB::table('masterclient')->insert([
+                                'Kode' => $myData[0]->NewId,
+                                'ClientName' => $request->post('ClientName'),
+                                'Address' => $request->post('Address'),
+                                'Phone' => $request->post('Phone'),
+                                'NPWP' => $request->post('NPWP'),
+                                'Email' => $request->post('Email'),
+                                'Logo' => $file->getClientOriginalName()
+                            ]);
+                if( $resInsert )
+                {
+                    return \Redirect::back();
+                }
+                else 
+                {
+                    return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+                }
+                
+                
+            } catch (JWTException $e) {
+                return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+            }
+
+        }catch (Throwable $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
+
     }
 
 }

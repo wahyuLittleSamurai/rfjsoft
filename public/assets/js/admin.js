@@ -4,6 +4,9 @@ $("#tblDataStaff").DataTable({
 $("#tblData").DataTable({
     scrollX: true
 });
+$("#tblDataService").DataTable({
+    scrollX: true
+});
 
 $("#btnAddStaff").click(function(){
     $("#modalStaff").modal("show");
@@ -23,6 +26,30 @@ $("#tblData").on('click', '.addDetailCompany', function(){
     $("#DetailCompanyName").val(company);
     $("#KodeDetail").val(data);
     $("#modalAddDetail").modal("show");
+
+});
+
+$("#tblDataService").on('click', '.editService', function(){
+    let data = $(this).data("id");
+    var form_data = {};   
+    form_data['Kode'] = data;  
+    var urlFile = '/GetServiceCompany';
+    getResult = postData(urlFile, form_data); 
+    if(getResult.indexOf("Failed") >= 0)
+    {
+        alert(getResult);
+    }
+    else
+    {
+        var jsonData = JSON.parse(getResult);
+        $("#modalAdd").modal("show");
+        $("#ServiceName").val(jsonData.ServiceName);
+        $("#DetailService").val(jsonData.DetailService);
+        $("#Icon").val(jsonData.Icon);
+        $("#LinkDetail").val(jsonData.LinkDetail);
+        $("#Kode").val(jsonData.Kode);
+        $(".btnAdd").text("Update");
+    }
 
 });
 
