@@ -43,4 +43,6 @@ Route::group(['middleware' => ['usersession']], function() {
 });
 
 Route::get('/Login', [AdminController::class, 'Login'])->name('login');
+Route::get('/StaffResetPass', [AdminController::class, 'StaffResetPass'])->name('StaffResetPass');
 Route::post('/LoginStaff', [AdminController::class, 'LoginStaff'])->name('LoginStaff');
+Route::post('/ActionStaffResetPass', [AdminController::class, 'ActionStaffResetPass'])->name('ActionStaffResetPass');

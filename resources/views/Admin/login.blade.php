@@ -24,6 +24,9 @@
                     <label for="Password">Password</label>
                     <input class="form-control rounded " type="password" placeholder="Password" name="password" required />
                 </div>
+                <a class="text-danger float-start mt-2" href="/StaffResetPass">
+                    <small>Reset Password</small>
+                </a>
                 <button class="btn btn-primary text-white float-end mt-2" >LOGIN</button>
 
             </form>

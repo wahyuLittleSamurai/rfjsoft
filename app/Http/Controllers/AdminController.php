@@ -26,6 +26,42 @@ class AdminController extends Controller
         return json_encode($resTmp);
         
     }
+    public function StaffResetPass()
+    {
+        return view('Admin.staffResetPass', [
+            "sidebars" => null,
+        ]);
+    }
+    public function ActionStaffResetPass(Request $request)
+    {
+        $resTmp = DB::select("SELECT Kode FROM masterstaff 
+                                WHERE IFNULL(IsActive,0) = 1 
+                                    AND (Email = '".$request->post('EmailOrPhone')."' OR Phone = '".$request->post('EmailOrPhone')."')
+                                LIMIT 1");
+        if(count($resTmp) > 0)
+        {
+            $newPass = Hash::make($request->post('Password'));
+            $retData = DB::statement("UPDATE masterstaff SET password = '".$newPass."' 
+                                    WHERE Kode = (
+                                        SELECT Kode FROM masterstaff 
+                                        WHERE IFNULL(IsActive,0) = 1 
+                                            AND (Email = '".$request->post('EmailOrPhone')."' OR Phone = '".$request->post('EmailOrPhone')."')
+                                        LIMIT 1
+                                    )");
+            if($retData)
+            {
+                return redirect('/Login');
+            }
+            else
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan, Coba Lagi!'); 
+            }
+        }
+        else
+        {
+            return \Redirect::back()->withErrors('Account Tidak Ditemukan');
+        }
+    }
     public function Login()
     {
         $mySession = Session::get('dataUser');
@@ -62,6 +98,8 @@ class AdminController extends Controller
             $credentialsJwt["StaffName"] = $credentials["Username"];
             $credentialsJwt["password"] = $credentials["password"];
 
+            $token = JWTAuth::attempt($credentialsJwt);
+
             if (! $token = JWTAuth::attempt($credentialsJwt)) {
                 return \Redirect::back()->withErrors('Account Tidak Ditemukan');
             }
@@ -70,6 +108,7 @@ class AdminController extends Controller
                 $request->session()->put('dataUser', $credentials);
                 return redirect('/DashAdmin');
             }
+            
             
         } catch (JWTException $e) {
             return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
