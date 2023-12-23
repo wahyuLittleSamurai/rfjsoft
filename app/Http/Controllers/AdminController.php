@@ -470,7 +470,7 @@ class AdminController extends Controller
         }
 
     }
-    public function GetDataPortofolio()
+    public function GetDataPortofolio(Request $request)
     {
         $kode = $request->post('Kode');  
         $res = DataPortofolio::all()->where('Kode', '=',$kode)->first();

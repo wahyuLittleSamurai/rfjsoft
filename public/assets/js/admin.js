@@ -23,6 +23,8 @@ $("#btnAdd").click(function(){
     $("#modalAdd").modal("show");
 });
 $("#btnAddPortofolio").click(function(){
+    $("#formAdd").trigger('reset');
+    $("#Kode").val('');
     $("#modalPortofolio").modal("show");
 });
 
@@ -129,7 +131,23 @@ $("#tblPortofolio").on('click', '.editPortofolio', function(){
     form_data['Kode'] = data;  
     var urlFile = '/GetDataPortofolio';
     getResult = postData(urlFile, form_data); 
-    console.log(gerResult);
+    console.log(getResult);
+    if(getResult.indexOf("Failed") >= 0)
+    {
+        alert(getResult);
+    }
+    else
+    {
+        var jsonData = JSON.parse(getResult);
+        $("#modalPortofolio").modal("show");
+        $("#ServiceName").val(jsonData.KodeService);
+        $("#PortofolioName").val(jsonData.PortofolioName);
+        $("#Link").val(jsonData.Link);
+        $("#DetailPortofolio").text(jsonData.DetailPortofolio);
+        $("#Kode").val(jsonData.Kode);
+        //$("#Photo").val("http://localhost:8000/assets/img/portfolio/" + jsonData.Photo);
+        $(".btnAdd").text("Update");
+    }
 
 });
 

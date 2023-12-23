@@ -88,12 +88,12 @@
             </div> 
             <div class="form-group">
                 <label for="Link">Link</label>
-                <textarea class="form-control form-control-sm "  id="Link" 
-                    name="Link" ></textarea>
+                <input class="form-control form-control-sm "  id="Link"  name="Link" />
             </div>
             <div class="form-group">
                 <label for="Photo">Photo</label>
-                <input class="form-control form-control-sm " type="file" id="Photo" name="Photo" required />
+                <input class="form-control form-control-sm " accept="image/png, image/jpeg" type="file" 
+                    id="Photo" name="Photo" required />
             </div> 
             <div class="form-group">
                 <label for="DetailPortofolio">Detail Portofolio</label>
