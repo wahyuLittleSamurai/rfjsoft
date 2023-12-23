@@ -8,6 +8,7 @@ use App\Models\DataStaff;
 use App\Models\MasterProfileCompany;
 use App\Models\DataService;
 use App\Models\Clients;
+use App\Models\DataPortofolio;
 use Session;
 use Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -151,6 +152,7 @@ class AdminController extends Controller
             "services" => $resServices,
         ]);
     }
+    
     public function InsertDetailCompany(Request $request)
     {
         try {
@@ -403,6 +405,75 @@ class AdminController extends Controller
     {
         $kode = $request->post('Kode');  
         $res = Clients::all()->where('Kode', '=',$kode)->first();
+        echo json_encode($res);
+    }
+    public function SettingPortofolio()
+    {
+        $resData = $this->GetSidebar();
+        $resPortofolio["datas"] = DB::select("SELECT pf.*, ms.ServiceName
+                                    FROM portofolio AS pf 
+                                    LEFT JOIN masterservice AS ms ON ms.Kode = pf.KodeService");
+        $resPortofolio["services"] = DB::select("SELECT Kode, ServiceName FROM masterservice WHERE IsActive = 1");
+        return view('Admin.dataPortofolio', [
+            "sidebars" => $resData,
+            "portofolios" => $resPortofolio,
+        ]);
+    }
+    public function InsertPortofolio(Request $request)
+    {
+        try {
+            $file = $request->file('Photo');
+            $path = 'assets\img\portfolio';
+            $resultUpload = $file->move($path,$file->getClientOriginalName());
+
+            if($request->filled('Kode'))
+            {
+                $resInsert = DB::table('portofolio')
+                            ->where('Kode',$request->post('Kode'))
+                            ->update([
+                                'KodeService' => $request->post('ServiceName'),
+                                'PortofolioName' => $request->post('PortofolioName'),
+                                'Link' => $request->post('Link'),
+                                'DetailPortofolio' => $request->post('DetailPortofolio'),
+                                'Photo' => $file->getClientOriginalName()
+                            ]);
+            }            
+            else
+            {
+                try {
+                    $myData = $this->GenerateId("MP", "portofolio");
+                    
+                    $resInsert = DB::table('portofolio')->insert([
+                                    'Kode' => $myData[0]->NewId,
+                                    'KodeService' => $request->post('ServiceName'),
+                                    'PortofolioName' => $request->post('PortofolioName'),
+                                    'Link' => $request->post('Link'),
+                                    'DetailPortofolio' => $request->post('DetailPortofolio'),
+                                    'Photo' => $file->getClientOriginalName()
+                                ]);
+                    
+                } catch (JWTException $e) {
+                    return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+                }
+            }
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+            }
+
+        }catch (Throwable $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
+
+    }
+    public function GetDataPortofolio()
+    {
+        $kode = $request->post('Kode');  
+        $res = DataPortofolio::all()->where('Kode', '=',$kode)->first();
         echo json_encode($res);
     }
 

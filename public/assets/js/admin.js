@@ -10,15 +10,20 @@ $("#tblDataService").DataTable({
 $("#tblDataClient").DataTable({
     scrollX: true
 });
+$("#tblPortofolio").DataTable({
+    scrollX: true
+});
 
 $("#btnAddStaff").click(function(){
     $("#modalStaff").modal("show");
 });
-
 $("#btnAdd").click(function(){
     $("#formAdd").trigger('reset'); 
     $("#Kode").val('');
     $("#modalAdd").modal("show");
+});
+$("#btnAddPortofolio").click(function(){
+    $("#modalPortofolio").modal("show");
 });
 
 
@@ -115,6 +120,16 @@ $("#tblData").on('click', '.editProfileCompany', function(){
         $("#Kode").val(jsonData.Kode);
         $(".btnAdd").text("Update");
     }
+
+});
+
+$("#tblPortofolio").on('click', '.editPortofolio', function(){
+    let data = $(this).data("id");
+    var form_data = {};   
+    form_data['Kode'] = data;  
+    var urlFile = '/GetDataPortofolio';
+    getResult = postData(urlFile, form_data); 
+    console.log(gerResult);
 
 });
 

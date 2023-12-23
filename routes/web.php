@@ -30,6 +30,7 @@ Route::group(['middleware' => ['usersession']], function() {
     Route::get('/SetActive/{Kode}/{Table}', [AdminController::class, 'SetActive'])->name('SetActive'); 
     Route::get('/SettingService', [AdminController::class, 'SettingService'])->name('SettingService'); 
     Route::get('/DataClient', [AdminController::class, 'DataClient'])->name('DataClient'); 
+    Route::get('/SettingPortofolio', [AdminController::class, 'SettingPortofolio'])->name('SettingPortofolio'); 
 
     //with csrf data
     Route::post('/InsertDataStaff', [AdminController::class, 'InsertDataStaff'])->name('InsertDataStaff')->middleware('csrf');
@@ -40,6 +41,9 @@ Route::group(['middleware' => ['usersession']], function() {
     Route::post('/GetServiceCompany', [AdminController::class, 'GetServiceCompany'])->name('GetServiceCompany')->middleware('csrf');
     Route::post('/InsertClient', [AdminController::class, 'InsertClient'])->name('InsertClient')->middleware('csrf');
     Route::post('/GetDataClient', [AdminController::class, 'GetDataClient'])->name('GetDataClient')->middleware('csrf');
+    Route::post('/InsertPortofolio', [AdminController::class, 'InsertPortofolio'])->name('InsertPortofolio')->middleware('csrf');
+    Route::post('/GetDataPortofolio', [AdminController::class, 'GetDataPortofolio'])->name('GetDataPortofolio')->middleware('csrf');
+    
 });
 
 Route::get('/Login', [AdminController::class, 'Login'])->name('login');
