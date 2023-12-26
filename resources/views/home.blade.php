@@ -1,4 +1,4 @@
-@extends('templates.main', ['sliding' => $sliding])
+@extends('templates.main', ['sliding' => $sliding, 'tagline' => $companies->TagLine])
 
 @section('content')
     <!-- ======= About Section ======= -->

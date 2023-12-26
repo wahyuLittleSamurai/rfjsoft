@@ -1,7 +1,8 @@
 <section id="hero">
 
     <div class="hero-content" data-aos="fade-up">
-      <h2>Where <span>Innovation</span> <br>Meets <span>Integration</span>.</h2>
+      <!--<h2>Where <span>Innovation</span> <br>Meets <span>Integration</span>.</h2>-->
+      {!! $tagline !!}
       <div>
         <a href="#about" class="btn-get-started scrollto">Get Started</a>
         <a href="#portfolio" class="btn-projects scrollto">Our Projects</a>
