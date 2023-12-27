@@ -15,11 +15,18 @@ class rjsoft extends Controller
                                 ORDER BY CreateDate DESC 
                                 LIMIT 1");
         $resServices = DB::select("SELECT * FROM masterservice WHERE IsActive = 1");
+        $resClients = DB::select("SELECT * FROM masterclient WHERE IsActive = 1");
+        $resPortfolios = DB::select("SELECT ms.ServiceName, p.*
+                            FROM portofolio AS p
+                            LEFT JOIN masterservice AS ms ON ms.Kode = p.KodeService
+                            WHERE p.IsActive = 1 AND ms.IsActive = 1");
         return view('home', [
             "sliding" => true,
             "tagline" => $resProfileCompanies[0],
             "companies" => $resProfileCompanies[0],
             "services" => $resServices,
+            "clients" => $resClients,
+            "portfolios" => $resPortfolios,
         ]);
     }
     public function detailService()
