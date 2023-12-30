@@ -9,15 +9,29 @@
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">App</li>
-              <li data-filter=".filter-card">Card</li>
-              <li data-filter=".filter-web">Web</li>
+              @foreach($portfoliosName as $row)
+              <li data-filter=".filter-{{ $row->ServiceNameClass }}">{{ $row->ServiceName }}</li>
+              @endforeach
             </ul>
           </div>
         </div>
 
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
+          
+          @foreach($portfolios as $row)
+          <div class="col-lg-4 col-md-6 portfolio-item filter-{{ $row->ServiceNameClass }}">
+            <img src="assets/img/portfolio/{{$row->Photo }}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>{{ $row->PortofolioName }}</h4>
+              <p>{{ $row->ServiceName }}</p>
+              <a href="assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" 
+                class="portfolio-lightbox preview-link" title="{{ $row->PortofolioName }}"><i class="bx bx-plus"></i></a>
+              <a href="{{ $row->Link }}" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+          @endforeach
+        
+          <!--
           <div class="col-lg-4 col-md-6 portfolio-item filter-app">
             <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
             <div class="portfolio-info">
@@ -107,7 +121,7 @@
               <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
             </div>
           </div>
-
+-->
         </div>
 
       </div>

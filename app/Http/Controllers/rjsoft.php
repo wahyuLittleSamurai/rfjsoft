@@ -16,10 +16,25 @@ class rjsoft extends Controller
                                 LIMIT 1");
         $resServices = DB::select("SELECT * FROM masterservice WHERE IsActive = 1");
         $resClients = DB::select("SELECT * FROM masterclient WHERE IsActive = 1");
-        $resPortfolios = DB::select("SELECT ms.ServiceName, p.*
+        $resPortfolios = DB::select("SELECT REPLACE(ms.ServiceName, ' ', '_') ServiceNameClass, ms.ServiceName, p.*
                             FROM portofolio AS p
                             LEFT JOIN masterservice AS ms ON ms.Kode = p.KodeService
                             WHERE p.IsActive = 1 AND ms.IsActive = 1");
+        $resNamePortfolios = DB::select("SELECT REPLACE(ms.ServiceName, ' ', '_') ServiceNameClass, 
+                                    MAX(ServiceName) ServiceName
+                                FROM portofolio AS p
+                                LEFT JOIN masterservice AS ms ON ms.Kode = p.KodeService
+                                WHERE p.IsActive = 1 AND ms.IsActive = 1
+                                GROUP BY ms.ServiceName");
+        $resStaff = DB::select("SELECT StaffName, Photo, Position, Phone, Email FROM masterstaff WHERE IsActive = 1");
+        $resDetailCompany = DB::select("SELECT Name, Icon, Link FROM detailcompany
+                                WHERE KodeCompany = 
+                                (
+                                    SELECT Kode FROM masterprofilecompany 
+                                    WHERE IsActive = 1 
+                                    ORDER BY CreateDate DESC 
+                                    LIMIT 1
+                                ) AND IsActive = 1");
         return view('home', [
             "sliding" => true,
             "tagline" => $resProfileCompanies[0],
@@ -27,6 +42,9 @@ class rjsoft extends Controller
             "services" => $resServices,
             "clients" => $resClients,
             "portfolios" => $resPortfolios,
+            "portfoliosName" => $resNamePortfolios,
+            "staffs" => $resStaff,
+            "detailsCompanies" => $resDetailCompany,
         ]);
     }
     public function detailService()
