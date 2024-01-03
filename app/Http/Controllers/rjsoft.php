@@ -51,4 +51,14 @@ class rjsoft extends Controller
     {
         return view('detailService', ["sliding" => false]);
     }
+    public static function filteringObj($obj, $myValue)
+    {
+        array_filter($obj, function ($item) use ($myValue) {
+            if ($item->Name == $myValue)
+            {
+                echo $item->Link;
+            }
+        });
+        
+    }
 }
