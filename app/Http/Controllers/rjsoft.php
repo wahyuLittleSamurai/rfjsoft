@@ -53,12 +53,22 @@ class rjsoft extends Controller
     }
     public static function filteringObj($obj, $myValue)
     {
-        array_filter($obj, function ($item) use ($myValue) {
-            if ($item->Name == $myValue)
-            {
-                echo $item->Link;
-            }
+        
+        $resFilter = array_filter($obj, function ($item) use ($myValue) {
+            return $item->Name == $myValue; 
         });
+        if (count($resFilter) > 0)
+        {
+            foreach($resFilter as $row)
+            {
+                return $row->Link;
+            }
+        }
+        else
+        {
+            return null;
+        }
+
         
     }
 }
