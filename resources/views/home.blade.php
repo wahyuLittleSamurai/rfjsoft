@@ -2,7 +2,8 @@
     [
     'sliding' => $sliding, 
     'tagline' => $companies->TagLine,
-    'detailsCompanies' => $detailsCompanies
+    'detailsCompanies' => $detailsCompanies,
+    'companyName' => $companies->CompanyName
     ])
 
 @section('content')
