@@ -9,6 +9,7 @@ use App\Models\MasterProfileCompany;
 use App\Models\DataService;
 use App\Models\Clients;
 use App\Models\DataPortofolio;
+use App\Models\DataTopMenu;
 use Session;
 use Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -476,5 +477,61 @@ class AdminController extends Controller
         $res = DataPortofolio::all()->where('Kode', '=',$kode)->first();
         echo json_encode($res);
     }
+    public function SettingTopMenu()
+    {
+        $resData = $this->GetSidebar();
+        $resMenu["datas"] = DB::select("SELECT * FROM mastertopbar");
+        return view('Admin.dataTopMenu', [
+            "sidebars" => $resData,
+            "menus" => $resMenu,
+        ]);
+    }
+    public function InsertTopMenu(Request $request)
+    {
+        try {
+            if($request->filled('Kode'))
+            {
+                $resInsert = DB::table('mastertopbar')
+                            ->where('Kode',$request->post('Kode'))
+                            ->update([
+                                'Menu' => $request->post('Menu'),
+                                'Link' => $request->post('Link'),
+                                'Icon' => $request->post('Icon'),
+                                'Isi' => $request->post('Isi'),
+                            ]);
+            }            
+            else
+            {
+                    
+                $myData = $this->GenerateId("TM", "mastertopbar");
+                
+                $resInsert = DB::table('mastertopbar')->insert([
+                                'Kode' => $myData[0]->NewId,
+                                'Menu' => $request->post('Menu'),
+                                'Link' => $request->post('Link'),
+                                'Icon' => $request->post('Icon'),
+                                'Isi' => $request->post('Isi')
+                            ]);
+            }
+                        
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+            }
 
+        }catch (Throwable $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
+
+    }
+    public function GetDataTopMenu(Request $request)
+    {
+        $kode = $request->post('Kode');  
+        $res = DataTopMenu::all()->where('Kode', '=',$kode)->first();
+        echo json_encode($res);
+    }
 }

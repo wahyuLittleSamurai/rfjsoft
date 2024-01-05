@@ -13,6 +13,9 @@ $("#tblDataClient").DataTable({
 $("#tblPortofolio").DataTable({
     scrollX: true
 });
+$("#tblTopMenu").DataTable({
+    scrollX: true
+});
 
 $("#btnAddStaff").click(function(){
     $("#modalStaff").modal("show");
@@ -26,6 +29,9 @@ $("#btnAddPortofolio").click(function(){
     $("#formAdd").trigger('reset');
     $("#Kode").val('');
     $("#modalPortofolio").modal("show");
+});
+$("#btnAddTopMenu").click(function(){
+    $("#modalTopMenu").modal("show");
 });
 
 
@@ -146,6 +152,29 @@ $("#tblPortofolio").on('click', '.editPortofolio', function(){
         $("#DetailPortofolio").text(jsonData.DetailPortofolio);
         $("#Kode").val(jsonData.Kode);
         //$("#Photo").val("http://localhost:8000/assets/img/portfolio/" + jsonData.Photo);
+        $(".btnAdd").text("Update");
+    }
+
+});
+$("#tblTopMenu").on('click', '.editTopBar', function(){
+    let data = $(this).data("id");
+    var form_data = {};   
+    form_data['Kode'] = data;  
+    var urlFile = '/GetDataTopMenu';
+    getResult = postData(urlFile, form_data);
+    if(getResult.indexOf("Failed") >= 0)
+    {
+        alert(getResult);
+    }
+    else
+    {
+        var jsonData = JSON.parse(getResult);
+        $("#modalTopMenu").modal("show");
+        $("#Menu").val(jsonData.Menu);
+        $("#Link").val(jsonData.Link);
+        $("#Icon").val(jsonData.Icon);
+        $("#Isi").text(jsonData.Isi);
+        $("#Kode").val(jsonData.Kode);
         $(".btnAdd").text("Update");
     }
 
