@@ -35,6 +35,7 @@ class rjsoft extends Controller
                                     ORDER BY CreateDate DESC 
                                     LIMIT 1
                                 ) AND IsActive = 1");
+        $resTopMenu = DB::select("SELECT Menu, Link, Icon, Isi FROM mastertopbar WHERE IsActive = 1");
         return view('home', [
             "sliding" => true,
             "tagline" => $resProfileCompanies[0],
@@ -45,6 +46,7 @@ class rjsoft extends Controller
             "portfoliosName" => $resNamePortfolios,
             "staffs" => $resStaff,
             "detailsCompanies" => $resDetailCompany,
+            "topMenus" => $resTopMenu,
         ]);
     }
     public function detailService()

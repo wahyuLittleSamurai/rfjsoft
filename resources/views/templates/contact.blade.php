@@ -1,4 +1,7 @@
 <section id="contact">
+      @php 
+        echo json_encode($detailsCompanies);
+      @endphp
       <div class="container" data-aos="fade-up">
         <div class="section-header">
           <h2>Contact Us</h2>
@@ -11,7 +14,9 @@
             <div class="contact-address">
               <i class="bi bi-geo-alt"></i>
               <h3>Address</h3>
-              <address>A108 Adam Street, NY 535022, USA</address>
+              <address> 
+                @php $dataFilter = App\Http\Controllers\rjsoft::filteringObj($detailsCompanies, 'Alamat'); echo $dataFilter; @endphp
+              </address>
             </div>
           </div>
 
