@@ -17,7 +17,8 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/', [rjsoft::class, 'index'])->name('index'); 
-Route::get('/DetailService', [rjsoft::class, 'detailService'])->name('DetailService'); 
+Route::get('/DetailService', [rjsoft::class, 'detailService'])->name('DetailService');
+Route::post('/InsertMessageCust', [rjsoft::class, 'InsertMessageCust'])->name('InsertMessageCust')->middleware('csrf');
 
 
 Route::group(['middleware' => ['usersession']], function() {
@@ -46,7 +47,7 @@ Route::group(['middleware' => ['usersession']], function() {
     Route::post('/GetDataPortofolio', [AdminController::class, 'GetDataPortofolio'])->name('GetDataPortofolio')->middleware('csrf');
     Route::post('/InsertTopMenu', [AdminController::class, 'InsertTopMenu'])->name('InsertTopMenu')->middleware('csrf');
     Route::post('/GetDataTopMenu', [AdminController::class, 'GetDataTopMenu'])->name('GetDataTopMenu')->middleware('csrf');
-    
+     
 });
 
 Route::get('/Login', [AdminController::class, 'Login'])->name('login');

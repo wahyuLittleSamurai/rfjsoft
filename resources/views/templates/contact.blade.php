@@ -48,12 +48,26 @@
       </div>
 
       <div class="container mb-4">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22864.11283411948!2d-73.96468908098944!3d40.630720240038435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY%2C+USA!5e0!3m2!1sen!2sbg!4v1540447494452" width="100%" height="380" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+      @php 
+        $dataFilter = App\Http\Controllers\rjsoft::filteringObj($detailsCompanies, 'GMap'); 
+      @endphp
+      {!! $dataFilter !!}
+      
       </div>
 
       <div class="container">
+        
         <div class="form">
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+          <form action="{{ route('InsertMessageCust') }}" method="post" >
+          @csrf  
+          <div class="row">
+                @if($errors->any())
+                <div class="col-12 mb-2">
+                    <small><label class="text-xs text-white bg-danger rounded">{{ $errors->first() }}</label></small>
+                </div>
+                @endif
+            </div>
             <div class="row">
               <div class="form-group col-md-6">
                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -69,15 +83,12 @@
               <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
             </div>
 
-            <div class="my-3">
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your message has been sent. Thank you!</div>
-            </div>
-
-            <div class="text-center"><button type="submit">Send Message</button></div>
+            <div class="text-center"><button type="submit" class="btn btn-success">Send Message</button></div>
           </form>
         </div>
 
       </div>
     </section><!-- End Contact Section -->
+
+
+

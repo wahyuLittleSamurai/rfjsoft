@@ -8,6 +8,34 @@ use App\Models\MasterProfileCompany;
 
 class rjsoft extends Controller
 {
+    public function InsertMessageCust(Request $request)
+    {
+        try {
+            $myData = $this->GenerateId("MC", "MessageFromCust");
+           
+            $resInsert = DB::table('MessageFromCust')->insert([
+                            'Kode' => $myData[0]->NewId,
+                            'CustName' => $request->post('name'),
+                            'EmailCust' => $request->post('email'),
+                            'SubjectCust' => $request->post('subject'),
+                            'Message' => $request->post('message')
+                        ]);
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+            }
+           
+            
+        } catch (JWTException $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
+         
+    }
+
     public function index()
     {
         $resProfileCompanies = DB::select("SELECT * FROM masterprofilecompany 
@@ -73,4 +101,26 @@ class rjsoft extends Controller
 
         
     }
+    protected function GenerateId($Kode, $Table)
+    {
+        $resData = DB::select("SELECT IF( 
+                                (
+                                    SELECT COUNT(Kode) FROM ".$Table." 
+                                    WHERE CONVERT(CreateDate, DATE) = CURDATE() 
+                                ) > 0, 	
+                                (
+                                    SELECT	CONCAT('".$Kode."', '-', date_format(curdate(), '%Y%m%d'), '-', LPAD(CONVERT( CONVERT(
+                                                        REPLACE(Kode,CONCAT('".$Kode."', '-', date_format(curdate(), '%Y%m%d'), '-'), '')
+                                                        , INT) + 1, CHAR(100)), 4, 0) ) NewKode FROM ".$Table."
+                                                    WHERE CONVERT(CreateDate, DATE) = CURDATE() 
+                                                    ORDER BY CreateDate DESC LIMIT 1	
+                                ),
+                                (
+                                    SELECT CONCAT('".$Kode."', '-', date_format(curdate(), '%Y%m%d'), '-', LPAD(1, 4, 0))
+                                )				
+                            ) NewId" );
+        return $resData;
+    }
+
+    
 }
