@@ -1,7 +1,4 @@
 <section id="contact">
-      @php 
-        echo json_encode($detailsCompanies);
-      @endphp
       <div class="container" data-aos="fade-up">
         <div class="section-header">
           <h2>Contact Us</h2>
@@ -15,7 +12,10 @@
               <i class="bi bi-geo-alt"></i>
               <h3>Address</h3>
               <address> 
-                @php $dataFilter = App\Http\Controllers\rjsoft::filteringObj($detailsCompanies, 'Alamat'); echo $dataFilter; @endphp
+                @php 
+                  $dataFilter = App\Http\Controllers\rjsoft::filteringObj($detailsCompanies, 'Alamat'); 
+                  echo $dataFilter;
+                @endphp
               </address>
             </div>
           </div>
@@ -24,7 +24,10 @@
             <div class="contact-phone">
               <i class="bi bi-phone"></i>
               <h3>Phone Number</h3>
-              <p><a href="tel:+155895548855">+1 5589 55488 55</a></p>
+                @php 
+                  $dataFilter = App\Http\Controllers\rjsoft::filteringObj($detailsCompanies, 'Phone'); 
+                @endphp
+              <p><a href="tel:{{ $dataFilter }}">{{ $dataFilter }}</a></p>
             </div>
           </div>
 
@@ -32,7 +35,12 @@
             <div class="contact-email">
               <i class="bi bi-envelope"></i>
               <h3>Email</h3>
-              <p><a href="mailto:info@example.com">info@example.com</a></p>
+              <p><a href="mailto:info@example.com">
+                @php 
+                  $dataFilter = App\Http\Controllers\rjsoft::filteringObj($detailsCompanies, 'Email'); 
+                @endphp
+                {{ $dataFilter }}
+              </a></p>
             </div>
           </div>
 
