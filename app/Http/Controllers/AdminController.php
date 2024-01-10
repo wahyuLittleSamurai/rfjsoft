@@ -10,6 +10,7 @@ use App\Models\DataService;
 use App\Models\Clients;
 use App\Models\DataPortofolio;
 use App\Models\DataTopMenu;
+use App\Models\masterseoheader;
 use Session;
 use Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -532,6 +533,62 @@ class AdminController extends Controller
     {
         $kode = $request->post('Kode');  
         $res = DataTopMenu::all()->where('Kode', '=',$kode)->first();
+        echo json_encode($res);
+    }
+    public function SeoHeader(Request $request)
+    {
+        $resData = $this->GetSidebar();
+        $resRow["datas"] = DB::select("SELECT * FROM masterseoheader");
+        return view('Admin.dataSeoHeader', [
+            "sidebars" => $resData,
+            "datas" => $resRow,
+        ]);
+    }
+    public function InsertSeoHeader(Request $request)
+    {
+        try {
+            if($request->filled('Kode'))
+            {
+                $resInsert = DB::table('masterseoheader')
+                            ->where('Kode',$request->post('Kode'))
+                            ->update([
+                                'LinkParam' => $request->post('LinkParam'),
+                                'Isi' => $request->post('Isi'),
+                                'Name' => $request->post('Nama'),
+                                'Grup' => $request->post('Grup'),
+                            ]);
+            }            
+            else
+            {
+                    
+                $myData = $this->GenerateId("SEO", "masterseoheader");
+                
+                $resInsert = DB::table('masterseoheader')->insert([
+                                'Kode' => $myData[0]->NewId,
+                                'LinkParam' => $request->post('LinkParam'),
+                                'Isi' => $request->post('Isi'),
+                                'Name' => $request->post('Nama'),
+                                'Grup' => $request->post('Grup')
+                            ]);
+            }
+                        
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+            }
+
+        }catch (Throwable $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }
+    }
+    public function GetSeoHeader(Request $request)
+    {
+        $kode = $request->post('Kode');  
+        $res = masterseoheader::all()->where('Kode', '=',$kode)->first();
         echo json_encode($res);
     }
 }

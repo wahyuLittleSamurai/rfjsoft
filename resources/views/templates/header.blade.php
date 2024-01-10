@@ -2,15 +2,39 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   @php 
-  $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Tittle');
-  @endphp
+   if (isset($seoHeaders) ) 
+   {  
+    $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Tittle');
+   }
+   else 
+   {
+    $dataFilter = "Admin";
+   }
+    @endphp
   <title>{{ $dataFilter }}</title>
   @php 
-  $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Description');
+  if (isset($seoHeaders)  ) 
+   {  
+    $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Description');
+   }
+   else 
+   {
+    $dataFilter = "Admin";
+   }
+  
   @endphp
   <meta content="{{ $dataFilter }}" name="description">
   @php 
-  $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Keyword');
+  if (isset($seoHeaders) ) 
+   {  
+    $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Keyword');
+   }
+   else 
+   {
+    $dataFilter = "Admin";
+   }
+  
+ 
   @endphp
   <meta content="{{ $dataFilter }}" name="keywords">
   <meta name="csrf-token" content="{{ csrf_token() }}">

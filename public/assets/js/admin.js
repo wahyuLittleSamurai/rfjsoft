@@ -16,9 +16,15 @@ $("#tblPortofolio").DataTable({
 $("#tblTopMenu").DataTable({
     scrollX: true
 });
+$("#tblDataSeoHeader").DataTable({
+    scrollX: true
+});
 
 $("#btnAddStaff").click(function(){
     $("#modalStaff").modal("show");
+});
+$("#btnAddSeoHeader").click(function(){
+    $("#modalAddSeoHeader").modal("show");
 });
 $("#btnAdd").click(function(){
     $("#formAdd").trigger('reset'); 
@@ -174,6 +180,29 @@ $("#tblTopMenu").on('click', '.editTopBar', function(){
         $("#Link").val(jsonData.Link);
         $("#Icon").val(jsonData.Icon);
         $("#Isi").text(jsonData.Isi);
+        $("#Kode").val(jsonData.Kode);
+        $(".btnAdd").text("Update");
+    }
+
+});
+$("#tblDataSeoHeader").on('click', '.editSeoHeader', function(){
+    let data = $(this).data("id");
+    var form_data = {};   
+    form_data['Kode'] = data;  
+    var urlFile = '/GetSeoHeader';
+    getResult = postData(urlFile, form_data);
+    if(getResult.indexOf("Failed") >= 0)
+    {
+        alert(getResult);
+    }
+    else
+    {
+        var jsonData = JSON.parse(getResult);
+        $("#modalAddSeoHeader").modal("show");
+        $("#LinkParam").val(jsonData.LinkParam);
+        $("#Nama").val(jsonData.Name);
+        $("#Isi").val(jsonData.Isi);
+        $("#Grup").val(jsonData.Grup);
         $("#Kode").val(jsonData.Kode);
         $(".btnAdd").text("Update");
     }
