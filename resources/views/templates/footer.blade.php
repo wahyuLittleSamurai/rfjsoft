@@ -33,4 +33,5 @@
   <script src="{{ asset('../assets/js/dataTables.js') }}"></script>
   <script src="{{ asset('../assets/js/main.js') }}"></script>
   <script src="{{ asset('../assets/js/admin.js') }}"></script>
+  <script src="{{ asset('../assets/js/rjsoft.js') }}"></script>
  

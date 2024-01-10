@@ -20,6 +20,9 @@ Route::get('/', [rjsoft::class, 'index'])->name('index');
 Route::get('/DetailService', [rjsoft::class, 'detailService'])->name('DetailService');
 Route::post('/InsertMessageCust', [rjsoft::class, 'InsertMessageCust'])->name('InsertMessageCust')->middleware('csrf');
 
+//gak di pakai
+Route::post('/GetSeoHeader', [rjsoft::class, 'GetSeoHeader'])->name('GetSeoHeader')->middleware('csrf');
+
 
 Route::group(['middleware' => ['usersession']], function() {
     /* ROUTE FOR ADMIN */

@@ -1,9 +1,18 @@
 <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Reveal Bootstrap Template</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  @php 
+  $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Tittle');
+  @endphp
+  <title>{{ $dataFilter }}</title>
+  @php 
+  $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Description');
+  @endphp
+  <meta content="{{ $dataFilter }}" name="description">
+  @php 
+  $dataFilter = App\Http\Controllers\rjsoft::filteringObjReal($seoHeaders, 'Keyword');
+  @endphp
+  <meta content="{{ $dataFilter }}" name="keywords">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- Favicons -->

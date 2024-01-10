@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\MasterProfileCompany;
+use App\Models\masterseoheader;
 
 class rjsoft extends Controller
 {
@@ -64,6 +65,7 @@ class rjsoft extends Controller
                                     LIMIT 1
                                 ) AND IsActive = 1");
         $resTopMenu = DB::select("SELECT Menu, Link, Icon, Isi FROM mastertopbar WHERE IsActive = 1");
+        $resSeoHeader = masterseoheader::all()->where('IsActive', '=', 1)->where('LinkParam', '=', '/');
         return view('home', [
             "sliding" => true,
             "tagline" => $resProfileCompanies[0],
@@ -75,15 +77,22 @@ class rjsoft extends Controller
             "staffs" => $resStaff,
             "detailsCompanies" => $resDetailCompany,
             "topMenus" => $resTopMenu,
+            "seoHeaders" => $resSeoHeader,
         ]);
     }
     public function detailService()
     {
         return view('detailService', ["sliding" => false]);
     }
+    public static function filteringObjReal($obj, $myValue)
+    {
+        foreach($obj as $row)
+        {
+            return $row->Name == $myValue ? $row->Isi : null;
+        }
+    }
     public static function filteringObj($obj, $myValue)
     {
-        
         $resFilter = array_filter($obj, function ($item) use ($myValue) {
             return $item->Name == $myValue; 
         });
@@ -121,6 +130,5 @@ class rjsoft extends Controller
                             ) NewId" );
         return $resData;
     }
-
     
 }
