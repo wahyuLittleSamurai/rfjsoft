@@ -37,6 +37,7 @@ Route::group(['middleware' => ['usersession']], function() {
     Route::get('/SettingPortofolio', [AdminController::class, 'SettingPortofolio'])->name('SettingPortofolio'); 
     Route::get('/SettingTopMenu', [AdminController::class, 'SettingTopMenu'])->name('SettingTopMenu'); 
     Route::get('/SeoHeader', [AdminController::class, 'SeoHeader'])->name('SeoHeader'); 
+    Route::get('/SlideShow', [AdminController::class, 'SlideShow'])->name('SlideShow'); 
 
     //with csrf data
     Route::post('/InsertDataStaff', [AdminController::class, 'InsertDataStaff'])->name('InsertDataStaff')->middleware('csrf');
@@ -53,6 +54,8 @@ Route::group(['middleware' => ['usersession']], function() {
     Route::post('/GetDataTopMenu', [AdminController::class, 'GetDataTopMenu'])->name('GetDataTopMenu')->middleware('csrf');
     Route::post('/InsertSeoHeader', [AdminController::class, 'InsertSeoHeader'])->name('InsertSeoHeader')->middleware('csrf');
     Route::post('/GetSeoHeader', [AdminController::class, 'GetSeoHeader'])->name('GetSeoHeader')->middleware('csrf');
+    Route::post('/InsertSlideshow', [AdminController::class, 'InsertSlideshow'])->name('InsertSlideshow')->middleware('csrf');
+    Route::post('/GetDataSlideshow', [AdminController::class, 'GetDataSlideshow'])->name('GetDataSlideshow')->middleware('csrf');
      
 });
 

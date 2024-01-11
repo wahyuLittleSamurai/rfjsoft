@@ -19,6 +19,10 @@ $("#tblTopMenu").DataTable({
 $("#tblDataSeoHeader").DataTable({
     scrollX: true
 });
+$("#tblDataSlideshow").DataTable({
+    scrollX: true
+});
+
 
 $("#btnAddStaff").click(function(){
     $("#modalStaff").modal("show");
@@ -38,6 +42,9 @@ $("#btnAddPortofolio").click(function(){
 });
 $("#btnAddTopMenu").click(function(){
     $("#modalTopMenu").modal("show");
+});
+$("#btnAddSlideshow").click(function(){
+    $("#modalAddSlideshow").modal("show");
 });
 
 
@@ -204,6 +211,29 @@ $("#tblDataSeoHeader").on('click', '.editSeoHeader', function(){
         $("#Isi").val(jsonData.Isi);
         $("#Grup").val(jsonData.Grup);
         $("#Kode").val(jsonData.Kode);
+        $(".btnAdd").text("Update");
+    }
+
+});
+$("#tblDataSlideshow").on('click', '.editSlideshow', function(){
+    let data = $(this).data("id");
+    var form_data = {};   
+    form_data['Kode'] = data;  
+    var urlFile = '/GetDataSlideshow';
+    getResult = postData(urlFile, form_data); 
+    console.log(getResult);
+    if(getResult.indexOf("Failed") >= 0)
+    {
+        alert(getResult);
+    }
+    else
+    {
+        var jsonData = JSON.parse(getResult);
+        $("#modalAddSlideshow").modal("show");
+        $("#NamaSlideshow").val(jsonData.Nama);
+        $("#Description").val(jsonData.Description);
+        $("#Kode").val(jsonData.Kode);
+        //$("#Photo").val("http://localhost:8000/assets/img/portfolio/" + jsonData.Photo);
         $(".btnAdd").text("Update");
     }
 

@@ -11,6 +11,7 @@ use App\Models\Clients;
 use App\Models\DataPortofolio;
 use App\Models\DataTopMenu;
 use App\Models\masterseoheader;
+use App\Models\masterslideshow;
 use Session;
 use Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -589,6 +590,67 @@ class AdminController extends Controller
     {
         $kode = $request->post('Kode');  
         $res = masterseoheader::all()->where('Kode', '=',$kode)->first();
+        echo json_encode($res);
+    }
+    public function SlideShow(Request $request)
+    {
+        $resData = $this->GetSidebar();
+        $resRow["datas"] = DB::select("SELECT * FROM masterslideshow");
+        return view('Admin.dataSlideShow', [
+            "sidebars" => $resData,
+            "datas" => $resRow,
+        ]);
+    }
+    public function InsertSlideshow(Request $request)
+    {
+        try {
+            $file = $request->file('Link');
+            $path = 'assets\img\slideshow';
+            $resultUpload = $file->move($path,$file->getClientOriginalName());
+
+            if($request->filled('Kode'))
+            {
+                $resInsert = DB::table('masterslideshow')
+                            ->where('Kode',$request->post('Kode'))
+                            ->update([
+                                'Nama' => $request->post('NamaSlideshow'),
+                                'Description' => $request->post('Description'),
+                                'Link' => $file->getClientOriginalName()
+                            ]);
+            }            
+            else
+            {
+                try {
+                    $myData = $this->GenerateId("SS", "masterslideshow");
+                    
+                    $resInsert = DB::table('masterslideshow')->insert([
+                                    'Kode' => $myData[0]->NewId,
+                                    'Nama' => $request->post('NamaSlideshow'),
+                                    'Description' => $request->post('Description'),
+                                    'Link' => $file->getClientOriginalName()
+                                ]);
+                    
+                } catch (JWTException $e) {
+                    return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+                }
+            }
+            if( $resInsert )
+            {
+                return \Redirect::back();
+            }
+            else 
+            {
+                return \Redirect::back()->withErrors('Ada Kesalahan Input Data, Coba Lagi!');
+            }
+
+        }catch (Throwable $e) {
+            return \Redirect::back()->withErrors('Ada Kesalahan Jaringan, Coba Lagi!');
+        }       
+    }
+    public function GetDataSlideshow(Request $request)
+    {
+        $kode = $request->post('Kode');  
+        $res = masterslideshow::all()->where('Kode', '=',$kode)->first();
         echo json_encode($res);
     }
 }
