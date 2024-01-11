@@ -6,6 +6,7 @@
     'companyName' => $companies->CompanyName,
     'topMenus' => $topMenus,
     'seoHeaders' => $seoHeaders,
+    'slideShows' => $slideShows,
     ])
 
 @section('content')

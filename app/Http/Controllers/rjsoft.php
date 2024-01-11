@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\MasterProfileCompany;
 use App\Models\masterseoheader;
+use App\Models\masterslideshow;
 
 class rjsoft extends Controller
 {
@@ -66,6 +67,7 @@ class rjsoft extends Controller
                                 ) AND IsActive = 1");
         $resTopMenu = DB::select("SELECT Menu, Link, Icon, Isi FROM mastertopbar WHERE IsActive = 1");
         $resSeoHeader = masterseoheader::all()->where('IsActive', '=', 1)->where('LinkParam', '=', '/');
+        $resSlideshow = masterslideshow::all()->where('IsActive', '=', 1);
         return view('home', [
             "sliding" => true,
             "tagline" => $resProfileCompanies[0],
@@ -78,6 +80,7 @@ class rjsoft extends Controller
             "detailsCompanies" => $resDetailCompany,
             "topMenus" => $resTopMenu,
             "seoHeaders" => $resSeoHeader,
+            "slideShows" => $resSlideshow,
         ]);
     }
     public function detailService()
